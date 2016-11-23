@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="sql_dumper:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/sql_dumper_jar</output-path>
+    <root id="archive" name="sql_dumper.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="sql_dumper" />
+      <element id="extracted-dir" path="C:/ORACLE12/Client64/jdbc/lib/ojdbc7.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
