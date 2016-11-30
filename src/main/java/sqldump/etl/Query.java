@@ -202,6 +202,7 @@ public class Query {
         Statement s = null;
         try {
             s = this.connection.createStatement();
+            s.setFetchSize(10000);  // leads to major performance improvements
         } catch (SQLException e) {
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);

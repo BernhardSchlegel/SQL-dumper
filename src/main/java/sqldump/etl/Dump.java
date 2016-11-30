@@ -7,7 +7,7 @@ import java.io.*;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.*;
 
 /**
  * Static class for dumping SQL ResultSet s to files
@@ -15,9 +15,42 @@ import java.util.List;
 public class Dump {
 
     /**
-     * determines, how many files are written at once
+     * determines, how many files are written at once, in Byte? Byte thing is not clear
+     * https://docs.oracle.com/javase/7/docs/api/java/io/BufferedWriter.html doesn't say
+     * anything about it.
      */
-    private static int LINES_AT_ONCE = 1000;
+    private static int BUFFER_SIZE = 1024*10;
+
+    /**
+     * Writes the list of Strings to a file using the given writer
+     * @param records records to write
+     * @param writer writer to use
+     * @throws IOException If an error occurs during file handling
+     */
+    private static void write(List<String> records, Writer writer) throws IOException {
+        for (String record: records) {
+            writer.write(record);
+        }
+        writer.flush();
+        writer.close();
+    }
+
+    /**
+     * Writes the given list of strings to the given file
+     * @param filename filename to be written
+     * @param records the records as List of strings
+     * @param bufSize the buffersize
+     * @throws IOException
+     */
+    private static void writeBuffered(String filename, List<String> records, int bufSize, boolean append) throws IOException {
+        try {
+            FileWriter writer = new FileWriter(filename, append);
+            BufferedWriter bufferedWriter = new BufferedWriter(writer, bufSize);
+            write(records, bufferedWriter);
+        } finally {
+        }
+    }
+
 
     /**
      * Dumps the passed ResultSet to a file
@@ -31,7 +64,6 @@ public class Dump {
 
            //PrintWriter csvWriter = new PrintWriter(new FileOutputStream(filename, append)) ;
            FileWriter fileWriter = new FileWriter(filename, append);
-           BufferedWriter csvWriter = new BufferedWriter(fileWriter);
 
            ResultSetMetaData meta = rs.getMetaData() ; // use last element, since all others are closed
            int numberOfColumns = meta.getColumnCount() ;
@@ -41,42 +73,42 @@ public class Dump {
                for (int i = 2 ; i < numberOfColumns + 1 ; i ++ ) {
                    dataHeaders += ",\"" + meta.getColumnName(i) + "\"" ;
                }
-               csvWriter.append(dataHeaders + "\r\n") ;
-               log.info("writing header...");
+               fileWriter.append(dataHeaders + "\r\n") ;
+               log.info("written header.");
            }
            else {
                log.info("appending...");
            }
+           fileWriter.flush();
+           fileWriter.close();
 
-
-           PingPong ping2 = log.info("writing data...");
-           int linesBuffered = 0;
-           String buffer = "";
+           PingPong ping2 = log.info("converting data to CSV (one dot corresponds with 50k lines)");
+           List<String> records = new ArrayList<String>();
            while (rs.next()) {
-               String row = "\"" + rs.getString(1) + "\""  ;
+
+               StringBuffer sbRow = new StringBuffer();
+               sbRow.append("\"" + rs.getString(1) + "\""  );
+
                for (int j = 2 ; j < numberOfColumns + 1 ; j ++ ) {
-                   row += ",\"" + rs.getString(j) + "\"" ;
+                   sbRow.append(",\"" + rs.getString(j) + "\"");
                }
-               buffer += row + "\r\n";
-               linesBuffered ++;
+               sbRow.append("\r\n");
+               records.add(sbRow.toString());
 
-               if(linesBuffered >= LINES_AT_ONCE) {
-                   csvWriter.append(buffer);
-                   linesBuffered = 0;
-                   buffer = "";
+               if (records.size()%50000 == 0) {
+                   System.out.print(".");
                }
-           }
 
-           if (linesBuffered != 0) {
-               csvWriter.append(buffer);
            }
-
+           log.finished(ping2);
+           System.out.print(" (" + records.size() + " entries)");
            if (rs != null) {
                rs.close();
            }
-           csvWriter.close();
 
-           log.finished(ping2);
+           PingPong ping3 = log.info("dumping CSV to file ...");
+           writeBuffered(filename, records, BUFFER_SIZE, true); // always apppend
+           log.finished(ping3);
 
            log.finished(ping);
 

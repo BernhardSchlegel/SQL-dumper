@@ -11,20 +11,20 @@ with the arguments being:
 
 - `sqlPath`: Path to a folder holding all .SQL files that will be executed, e.g. `"C:\path\to\folder\with\sql\files\"`
 - `outPath`: Path to a folder, where the .CSV will be dumped, e.g. `"C:\path\to\csv\"`
-- `user`: Your username to access the database, if in doubt sorrounded by `""`, e.g. `"myusername"`
+- `user`: Your username to access the database, if in doubt surrounded by `""`, e.g. `"myusername"`
 - `pass`: Your password to access the database, e.g. `"123myPassword"`
 - `jdbc`: The `JDBC` connection string to establish the connection, e.g. `"jdbc:oracle:thin:@sdwh.company.com:1333:sdwh"`
 
-The outputted CSVs will be placed in a sub directory following the convention `YYYY_MM_DD` and be named after the SQL script 
-file in the input dir (`myScript.SQL` will lead to a resultsfile named `myScript.CSV`)
+The outputted CSV files will be saved to a sub directory of `outpath` following the convention `YYYY_MM_DD\` and be
+named after the SQL script file in the input directory (`myScript.SQL` will lead to a resultfile named `myScript.CSV`).
 
-# extended SQL
+## extended SQL
 
 The following "extended SQL" commands are supported. Since being hidden as a comment (indicated by `--`, which is mandatory), 
-the SQL files are still executable by every other .SQL Tool (like the Oracle SQL Developer). Extended SQL is likely used in the `WHERE` clause 
-of your SQL script.
+the SQL files are still executable by every other SQL Tool (like the Oracle SQL Developer). Extended SQL is likely used 
+in the `WHERE` clause of your SQL script.
 
-All subquery results will be concatenated into the same, output CSV file.
+All subquery results will be concatenated into a single, output CSV file.
 
 The use of extended SQL is completely **optional**. Querying standard SQL will work, too.
 
@@ -69,7 +69,7 @@ one `AND MY_COL IN (118, 119)`.
 
 ### Generate subquery for every number in range (`$ESQL_spreadNum`)
 
-Gerates a subquery for every number in the given range.
+Generates a subquery for every number in the given range.
 
 #### Example
 
@@ -92,6 +92,31 @@ The following code
     
 Will generate 10 subqueries, with the first one being `AND MY_COL BETWEEN 1 AND 9`.
 
-# Caveats / TODO
+## Caveats / TODO
 
-- Right now, only oracle thin connection are supported. Feel free to enhance and support your pull request :)
+- Only Oracle thin connection are supported.
+
+Feel free to contribute and support your pull request :)
+
+## History
+
+v.0.0.2 (30.11.2016)
+
+- Improved performance using `statement.setFetchSize()` and improving string creation using a `StringBuilder`
+- Minor Bugfixes in last iteration of NumArray and TextArray functions 
+- Added compiled binary to /bin folder
+- Documentation when calling the jar without parameters
+
+v.0.0.1 (23.11.2016)
+
+- initial commit
+
+## License: The MIT License (MIT)
+
+Copyright (c) 2016 Bernhard Schlegel
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

@@ -36,6 +36,7 @@ public class SQLDump {
 
         if(args.length != 5) {
             log.error(5-args.length + " argument(s) missing, please provide all of them.");
+            printInstructions();
             return;
         }
 
