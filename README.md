@@ -3,7 +3,10 @@
 Command line tool, that dumps the result of SQL to an CSV on the filesystem. Queries can be using "extended SQL"
 split into subqueries, reducing the complexity on the server side.
 
-Usage is easy:
+**Installation**: 
+Download [Oracle JDBC Driver 12c](http://www.oracle.com/technetwork/database/features/jdbc/jdbc-drivers-12c-download-1958347.html) (tested with this version.) and put sql-dumper.jar and ojdbc7.jar in one folder.
+
+**Usage** is easy:
 
     java -jar sql_dumper.jar sqlPath outPath user pass jdbc
 
@@ -99,6 +102,10 @@ Will generate 10 subqueries, with the first one being `AND MY_COL BETWEEN 1 AND 
 Feel free to contribute and support your pull request :)
 
 ## History
+v.0.0.3 (02.05.2017)
+
+- dynamic linking of JDBC driver (ojdbc7.jar) 
+- Minor Bugfixes in last iteration of NumArray and TextArray functions 
 
 v.0.0.2 (30.11.2016)
 
