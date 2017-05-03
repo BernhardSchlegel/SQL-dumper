@@ -57,7 +57,7 @@ public class SQLDump {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd");
         Calendar cal = Calendar.getInstance();
         String dateString = dateFormat.format(cal.getTime());
-        outPath += dateString + "\\";
+        outPath += dateString + File.separator;
 
         // check and create paths
         if (checkAndCreatePaths(sqlPath, outPath) != true) {
@@ -86,7 +86,7 @@ public class SQLDump {
                             // execute query
                             PingPong pp = log.info("working file " + (i+1) + "/" + numOfFiles + " (" + currentSQLFile + ")...");
                             Query qry = new Query(con, log);
-                            qry.getDataFromSQLFile(sqlPath + "\\" + currentSQLFile, outPath + "\\" + fileNameWithOutExt + ".csv");
+                            qry.getDataFromSQLFile(listOfSQLFiles[i].getPath(), outPath + File.separator + fileNameWithOutExt + ".csv");
                             log.finished(pp);
                         } catch (Exception e) {
                             log.error("error occured while executing file \"" + listOfSQLFiles[i].getName().toString() + "\": ");
