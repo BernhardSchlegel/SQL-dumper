@@ -32,8 +32,12 @@ public class ESQLspreadNum extends FunctionESQL {
                     int lowerLimit = Integer.parseInt(limits[0]);
                     int upperLimit = Integer.parseInt(limits[1]);
 
+                    int increment = 1;
+                    if (lowerLimit > upperLimit)
+                        increment = -1;
+
                     // add all numbers in range
-                    for (int currentNumber = lowerLimit; currentNumber <= upperLimit; currentNumber++) {
+                    for (int currentNumber = lowerLimit; currentNumber <= upperLimit; currentNumber += increment) {
                         returnBlocks.add(String.valueOf(currentNumber));
                     }
                 }

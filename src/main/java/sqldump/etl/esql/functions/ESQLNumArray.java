@@ -49,7 +49,7 @@ public class ESQLNumArray extends FunctionESQL {
                         for (int k = 0; k < blocksize && j <= (count); k++) {
                             String tempstr = values[j].toString();
                             tempstr = tempstr.replace("\"", "");
-                            if ((k + 1) < blocksize && j < (count)) {
+                            if ((k + 1) < blocksize && (j + 1) < (count)) {
                                 tempstr += ", ";
                             }
                             superString += tempstr;

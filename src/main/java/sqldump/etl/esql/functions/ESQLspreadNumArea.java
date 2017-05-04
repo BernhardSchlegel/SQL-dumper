@@ -46,7 +46,7 @@ public class ESQLspreadNumArea extends FunctionESQL {
 
                     // add all numbers in range
                     for (int currentNumber = lowerLimit; currentNumber <= upperLimit; currentNumber = currentNumber + increment) {
-                        returnBlocks.add("BETWEEN " + String.valueOf(currentNumber) + " AND " + String.valueOf(currentNumber+increment-1));
+                        returnBlocks.add("BETWEEN " + String.valueOf(currentNumber) + " AND " + String.valueOf(Math.min(upperLimit, currentNumber+increment-1)));
                     }
                 }
             }

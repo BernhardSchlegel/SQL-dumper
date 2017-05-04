@@ -39,7 +39,7 @@ Inserts the given text. This is necessary because extended SQL is hidden in comm
 
 The following code 
 
-      -- ("WHERE mw.WERT_CODE = 123")
+      -- $ESQL_text("WHERE mw.WERT_CODE = 123")
       
 Will simply output the text `"WHERE mw.WERT_CODE = 123` to sql query.
 
@@ -78,7 +78,7 @@ Generates a subquery for every number in the given range.
 
 The following code
 
-    -- $ESQL_text("AND MY_COL = ") $spreadNum(1:100)
+    -- $ESQL_text("AND MY_COL = ") $ESQL_spreadNum(1:100)
     
 Will generate 100 subqueries, the first one having the line `AND MY_COL = 1`. The last one will be `AND MY_COL = 100`.
 
