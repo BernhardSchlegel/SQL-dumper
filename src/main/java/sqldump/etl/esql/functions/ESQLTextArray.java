@@ -44,9 +44,9 @@ public class ESQLTextArray extends FunctionESQL {
                     int blocksize =  Integer.parseInt(values[0]);
 
                     // add all numbers in range
-                    for (int j = 1; j < (count); j++) {
+                    for (int j = 1; j < (count+1);) {
                         String superString = "(";
-                        for (int k = 0; k < blocksize && j <= (count); k++) {
+                        for (int k = 0; k < blocksize && j <= (count+1); k++) {
                             String tempstr = values[j].toString();
                             tempstr = tempstr.replace("\"", "'");
                             if ((k + 1) < blocksize && (j + 1) < (count)) {

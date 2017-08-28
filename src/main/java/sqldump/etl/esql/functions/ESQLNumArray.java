@@ -37,6 +37,9 @@ public class ESQLNumArray extends FunctionESQL {
                     while (m2.find())
                         count++;
                     log.info("found " + String.valueOf(count) + " elements");
+                    // count now holds the number of actual values (the blocksize
+                    // itself is not included. So e.g. 2, val1, val2, val3 would
+                    // lead to count = 3
 
                     String[] values = block.split(",", 0);  // no limit, may cause stability issue on small hardware
 
@@ -49,7 +52,7 @@ public class ESQLNumArray extends FunctionESQL {
                         for (int k = 0; k < blocksize && j <= (count); k++) {
                             String tempstr = values[j].toString();
                             tempstr = tempstr.replace("\"", "");
-                            if ((k + 1) < blocksize && (j + 1) < (count)) {
+                            if ((k + 1) < blocksize && j < (count)) {
                                 tempstr += ", ";
                             }
                             superString += tempstr;
