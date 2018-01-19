@@ -85,18 +85,33 @@ public class Dump {
            PingPong ping2 = log.info("converting data to CSV (one dot corresponds with 50k lines)");
            List<String> records = new ArrayList<String>();
            while (rs.next()) {
-
+        	   
+        	   boolean StringType = (meta.getColumnType(1) == java.sql.Types.VARCHAR);
+        	   
                StringBuffer sbRow = new StringBuffer();
-               sbRow.append("\"" + rs.getString(1) + "\""  );
+               if(StringType) {
+            	   sbRow.append("\"" + rs.getString(1) + "\""  );
+               }else {
+            	   sbRow.append(rs.getString(1));
+               }
 
                for (int j = 2 ; j < numberOfColumns + 1 ; j ++ ) {
-                   sbRow.append(",\"" + rs.getString(j) + "\"");
+            	   StringType = (meta.getColumnType(j) == java.sql.Types.VARCHAR);
+            	   if(StringType) {
+            		   sbRow.append(",\"" + rs.getString(j) + "\"");
+            	   }else {
+            		   sbRow.append("," + rs.getString(j));
+            	   }
                }
                sbRow.append("\r\n");
                records.add(sbRow.toString());
 
-               if (records.size()%50000 == 0) {
+               if (records.size()%10000 == 0) {
                    System.out.print(".");
+                   PingPong ping3 = log.info("dumping CSV to file ...");
+                   writeBuffered(filename, records, BUFFER_SIZE, true); // always apppend
+                   records = new ArrayList<String>();
+                   sbRow.setLength(0);
                }
 
            }
@@ -106,9 +121,9 @@ public class Dump {
                rs.close();
            }
 
-           PingPong ping3 = log.info("dumping CSV to file ...");
-           writeBuffered(filename, records, BUFFER_SIZE, true); // always apppend
-           log.finished(ping3);
+           //PingPong ping3 = log.info("dumping CSV to file ...");
+           //writeBuffered(filename, records, BUFFER_SIZE, true); // always apppend
+           //log.finished(ping3);
 
            log.finished(ping);
 
