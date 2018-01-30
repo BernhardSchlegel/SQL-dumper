@@ -82,8 +82,9 @@ public class Dump {
            fileWriter.flush();
            fileWriter.close();
 
-           PingPong ping2 = log.info("converting data to CSV (one dot corresponds with 50k lines)");
+           PingPong ping2 = log.info("converting data to CSV (one dot corresponds with 10k lines)");
            List<String> records = new ArrayList<String>();
+           int counter =0;
            while (rs.next()) {
         	   
         	   boolean StringType = (meta.getColumnType(1) == java.sql.Types.VARCHAR);
@@ -107,8 +108,8 @@ public class Dump {
                records.add(sbRow.toString());
 
                if (records.size()%10000 == 0) {
+            	   counter+=records.size();
                    System.out.print(".");
-                   PingPong ping3 = log.info("dumping CSV to file ...");
                    writeBuffered(filename, records, BUFFER_SIZE, true); // always apppend
                    records = new ArrayList<String>();
                    sbRow.setLength(0);
@@ -116,7 +117,7 @@ public class Dump {
 
            }
            log.finished(ping2);
-           System.out.print(" (" + records.size() + " entries)");
+           System.out.print(" (" + counter + " entries)");
            if (rs != null) {
                rs.close();
            }
