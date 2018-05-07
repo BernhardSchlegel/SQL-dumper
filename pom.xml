@@ -8,9 +8,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.oracle</groupId>
+			<groupId>com.github.noraui</groupId>
 			<artifactId>ojdbc7</artifactId>
-			<version>12.1.0</version>
+			<version>12.1.0.2</version>
 		</dependency>
 	</dependencies>
 
