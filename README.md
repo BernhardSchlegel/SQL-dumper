@@ -52,7 +52,7 @@ queried at a time can be set explicitly.
 
 The following code
 
-     -- $ESQL_textArray("AND MY_COL IN ") $ESQL_textArray(2, "VALA", "VALB", "VALC", "VALD")
+     -- $ESQL_text("AND MY_COL IN ") $ESQL_textArray(2, "VALA", "VALB", "VALC", "VALD")
      
 Will result in two subqueries, with the first one having `AND MY_COL IN ('VALA', 'VALB')`.
 

@@ -307,7 +307,7 @@ public class Log {
 				"  / __/ __ \\  / /    / _ \\__ ____ _  ___  ___ ____\n" +
 				" _\\ \\/ /_/ / / /__  / // / // /  ' \\/ _ \\/ -_) __/\n" +
 				"/___/\\___\\_\\/____/ /____/\\_,_/_/_/_/ .__/\\__/_/   \n" +
-				"                                  /_/ v.0.0.3");
-		System.out.print("(c) by Bernhard Schlegel, 2016-2017, github.com/BernhardSchlegel");
+				"                                  /_/ v.0.0.4");
+		System.out.print("(c) by Bernhard Schlegel, 2016-2018, github.com/BernhardSchlegel");
 	}
 }
