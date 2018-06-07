@@ -57,8 +57,15 @@ public class Query {
                 sb.append(System.lineSeparator());
                 line = br.readLine();
             }
-            String query = sb.toString().replace(";","");
             br.close();
+            
+            // Removing semi-colon from end of query (if any)
+            // Oracle driver will throw exception if it find ; in end
+            String query = sb.toString().trim();
+            if(query.endsWith(";")) {
+                query = query.substring(0, query.length() - 1);
+            }
+            
             return executeQuery(query, outFile);
         } catch (FileNotFoundException e) {
             log.error("failed to load file. error: ");
