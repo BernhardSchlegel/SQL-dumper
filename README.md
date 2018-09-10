@@ -4,7 +4,8 @@ Command line tool, that dumps the result of SQL to an CSV on the filesystem. Que
 split into subqueries, reducing the complexity on the server side.
 
 **Installation**: 
-Download [Oracle JDBC Driver 12c](http://www.oracle.com/technetwork/database/features/jdbc/jdbc-drivers-12c-download-1958347.html) (tested with this version.) and put sql-dumper.jar and ojdbc7.jar in one folder.
+
+Download [Oracle JDBC Driver 12c](http://www.oracle.com/technetwork/database/features/jdbc/jdbc-drivers-12c-download-1958347.html) (tested with this version.) and put sql-dumper.jar and ojdbc7.jar in one folder. Note that the ojdbc7.jar file can not be gathered by maven, it has to be added manually to the project. To do so press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd>, go to "Libraries", and select the file from your local disc.
 
 **Usage** is easy:
 
