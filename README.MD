@@ -1,9 +1,12 @@
 # SQL-dumper
 
-Command line tool, that dumps the result of SQL to an CSV on the filesystem. Queries can be using "extended SQL"
-split into subqueries, reducing the complexity on the server side.
+Command line tool, that dumps the result of SQL to an CSV on the filesystem.
+Queries can be using "extended SQL" split into subqueries, reducing the complexity
+on the server side.
 
-**Installation**: 
+If you want to contribute, please see the [contribution guidelines](#contributing).
+
+**Installation**:
 
 Download [Oracle JDBC Driver 12c](http://www.oracle.com/technetwork/database/features/jdbc/jdbc-drivers-12c-download-1958347.html) (tested with this version.) and put sql-dumper.jar and ojdbc7.jar in one folder. Note that the ojdbc7.jar file can not be gathered by maven, it has to be added manually to the project. To do so in IntelliJ IDEA, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd>, go to "Libraries", and select the file from your local disc.
 
@@ -22,10 +25,10 @@ with the arguments being:
 The outputted CSV files will be saved to a sub directory of `outpath` following the convention `YYYY_MM_DD\` and be
 named after the SQL script file in the input directory (`myScript.SQL` will lead to a resultfile named `myScript.CSV`).
 
-## extended SQL
+## Extended SQL
 
-The following "extended SQL" commands are supported. Since being hidden as a comment (indicated by `--`, which is mandatory), 
-the SQL files are still executable by every other SQL Tool (like the Oracle SQL Developer). Extended SQL is likely used 
+The following "extended SQL" commands are supported. Since being hidden as a comment (indicated by `--`, which is mandatory),
+the SQL files are still executable by every other SQL Tool (like the Oracle SQL Developer). Extended SQL is likely used
 in the `WHERE` clause of your SQL script.
 
 All subquery results will be concatenated into a single, output CSV file.
@@ -38,10 +41,10 @@ Inserts the given text. This is necessary because extended SQL is hidden in comm
 
 #### Example
 
-The following code 
+The following code
 
       -- $ESQL_text("WHERE mw.WERT_CODE = 123")
-      
+
 Will simply output the text `"WHERE mw.WERT_CODE = 123` to sql query.
 
 ### Generate subqueries by an array of strings (`$ESQL_textArray`)
@@ -54,7 +57,7 @@ queried at a time can be set explicitly.
 The following code
 
      -- $ESQL_text("AND MY_COL IN ") $ESQL_textArray(2, "VALA", "VALB", "VALC", "VALD")
-     
+
 Will result in two subqueries, with the first one having `AND MY_COL IN ('VALA', 'VALB')`.
 
 
@@ -67,8 +70,8 @@ Generates a subquery for the given numbers. Encapsulates multiple numbers into o
 The following code
 
     -- $ESQL_text("AND MY_COL IN ") $ESQL_numArray(2, 117, 118, 119)
-    
-Will generate two subqueries from the given SQL file. The first one will contain `AND MY_COL IN (2, 117)` and the second 
+
+Will generate two subqueries from the given SQL file. The first one will contain `AND MY_COL IN (2, 117)` and the second
 one `AND MY_COL IN (118, 119)`.
 
 ### Generate subquery for every number in range (`$ESQL_spreadNum`)
@@ -80,7 +83,7 @@ Generates a subquery for every number in the given range.
 The following code
 
     -- $ESQL_text("AND MY_COL = ") $ESQL_spreadNum(1:100)
-    
+
 Will generate 100 subqueries, the first one having the line `AND MY_COL = 1`. The last one will be `AND MY_COL = 100`.
 
 
@@ -93,7 +96,7 @@ Generates a given number of subqueries by slicing the given range into ranges of
 The following code
 
     -- $ESQL_text("AND MY_COL ") $ESQL_spreadNumArea(1:100:10)
-    
+
 Will generate 10 subqueries, with the first one being `AND MY_COL BETWEEN 1 AND 9`.
 
 ## Caveats / TODO
@@ -103,21 +106,78 @@ Will generate 10 subqueries, with the first one being `AND MY_COL BETWEEN 1 AND 
 Feel free to contribute and support your pull request :)
 
 ## History
+
+v.0.0.4 (12.09.2018)
+- Merged Pull-Request from [vbhavsingh](https://github.com/vbhavsingh) to
+  support larger files. Thanks!
+- Merged Pull-Reqeust from [rizwan-ishtiaq](https://github.com/rizwan-ishtiaq) to fix bug (`;`
+  is only removed at the end of .SQL file). Thanks!
+- Added Pull-Request tutorial.
+- minor readme improvements.
+
 v.0.0.3 (02.05.2017)
 
-- dynamic linking of JDBC driver (ojdbc7.jar) 
-- Minor Bugfixes in last iteration of NumArray and TextArray functions 
+- dynamic linking of JDBC driver (ojdbc7.jar) to be conform with the Java
+  liscense.
+- Minor Bugfixes in last iteration of `NumArray` and `TextArray` functions.
 
 v.0.0.2 (30.11.2016)
 
-- Improved performance using `statement.setFetchSize()` and improving string creation using a `StringBuilder`
-- Minor Bugfixes in last iteration of NumArray and TextArray functions 
-- Added compiled binary to /bin folder
-- Documentation when calling the jar without parameters
+- Improved performance using `statement.setFetchSize()` and improving string creation using a `StringBuilder`.
+- Minor Bugfixes in last iteration of NumArray and TextArray functions.
+- Added compiled binary to /bin folder.
+- Documentation when calling the jar without parameters.
 
 v.0.0.1 (23.11.2016)
 
-- initial commit
+- initial commit.
+
+## Contributing
+
+Inspired by the workflow from [scikit-learn](http://scikit-learn.org/stable/developers/contributing.html) these
+are the steps you need to follow for your Pull-Request to merged:
+
+The preferred workflow for contributing to SQL-dumper is to fork the
+[main repository](https://github.com/scikit-learn/scikit-learn) on
+GitHub, clone, and develop on a branch. Steps:
+
+1. Fork the [project repository](https://github.com/BernhardSchlegel/sql-dumper)
+   by clicking on the "Fork" button near the top right of the page. This creates
+   a copy of the code under your GitHub user account. For more details on
+   how to fork a repository see [this guide](https://help.github.com/articles/fork-a-repo/).
+
+2. Clone your fork of the SQL-dumper repo from your GitHub account to your local disk:
+
+   ```bash
+   $ git clone https://github.com/BernhardSchlegel/SQL-dumper.git
+   $ cd SQL-dumper
+   ```
+
+3. Create a ``feature`` branch to hold your development changes:
+
+   ```bash
+   $ git checkout -b my-feature
+   ```
+
+   Always use a ``feature`` branch. It's good practice to never work on the ``master`` branch!
+
+4. Develop the feature on your feature branch. Add changed files using ``git add`` and then ``git commit`` files:
+
+   ```bash
+   $ git add modified_files
+   $ git commit
+   ```
+
+   to record your changes in Git, then push the changes to your GitHub account with:
+
+   ```bash
+   $ git push -u origin my-feature
+   ```
+
+5. Follow [these instructions](https://help.github.com/articles/creating-a-pull-request-from-a-fork)
+to create a pull request from your fork.
+
+Thank you for your support !
 
 ## License: The MIT License (MIT)
 
