@@ -1,18 +1,25 @@
 # SQL-dumper
 
-Command line tool, that dumps the result of SQL to an CSV on the filesystem.
+Command line tool, that dumps the result of Oracle SQL to an CSV on the filesystem.
 Queries can be using "extended SQL" split into subqueries, reducing the complexity
 on the server side.
 
 If you want to contribute, please see the [contribution guidelines](#contributing).
 
 **Installation**:
+`git clone repo`
 
-Download [Oracle JDBC Driver 12c](http://www.oracle.com/technetwork/database/features/jdbc/jdbc-drivers-12c-download-1958347.html) (tested with this version.) and put sql-dumper.jar and ojdbc7.jar in one folder. Note that the ojdbc7.jar file can not be gathered by maven, it has to be added manually to the project. To do so in IntelliJ IDEA, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd>, go to "Libraries", and select the file from your local disc.
+`mvn clean package`
+
+target directory will have two jars sql-dumper.jar and sql-dumper-jar-with-dependencies.jar
+
+When using minimal jar file (sql-dumper.jar) Please 
+Download [Oracle JDBC Driver 12c](http://www.oracle.com/technetwork/database/features/jdbc/jdbc-drivers-12c-download-1958347.html) 
+(tested with this version.) and put sql-dumper.jar and ojdbc7.jar in one folder.
 
 **Usage** is easy:
 
-    java -jar sql_dumper.jar sqlPath outPath user pass jdbc
+    java -jar sql-dumper-jar-with-dependencies.jar sqlPath outPath user pass jdbc
 
 with the arguments being:
 
@@ -20,7 +27,9 @@ with the arguments being:
 - `outPath`: Path to a folder, where the .CSV will be dumped, e.g. `"C:\path\to\csv\"`
 - `user`: Your username to access the database, if in doubt surrounded by `""`, e.g. `"myusername"`
 - `pass`: Your password to access the database, e.g. `"123myPassword"`
-- `jdbc`: The `JDBC` connection string to establish the connection, e.g. `"jdbc:oracle:thin:@sdwh.company.com:1333:sdwh"`
+- `jdbc`: The `JDBC` connection string to establish the connection
+  - e.g. `"jdbc:oracle:thin:@sdwh.company.com:1333:sdwh"` when sdwh is sid
+  - e.g. `"jdbc:oracle:thin:@//sdwh.company.com:1333/sdwh"` when sdwh is service name
 
 The outputted CSV files will be saved to a sub directory of `outpath` following the convention `YYYY_MM_DD\` and be
 named after the SQL script file in the input directory (`myScript.SQL` will lead to a resultfile named `myScript.CSV`).
